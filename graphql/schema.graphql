@@ -1,0 +1,50 @@
+type User {
+  email: String! @unique
+  name: String!
+  routines: [Routine!] @relation
+  tasks: [Task!] @relation
+  childs: [Child!]
+}
+
+type Child {
+  name: String!
+  birthday: Time!
+  parent: User! @relation
+}
+
+type Task {
+  title: String!
+  due: Time!
+  completed: Boolean!
+  routine: Routine
+  owner: User!
+}
+
+type Routine {
+  title: String!
+  tasks: [Task] @relation
+  category: String
+  owner: User!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Query {
+  allTasks: [Task!]
+  allRoutines: [Routine!]
+  routinesByCategory(category: String!): [Routine!]
+  tasksCompletedByFlag(completed: Boolean!): [Task!]
+}
+
+type Mutation {
+  register(input: RegisterInput): User! @resolver(name: "register")
+  login(input: LoginInput): String! @resolver(name: "login")
+}
