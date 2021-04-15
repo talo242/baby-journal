@@ -3,13 +3,6 @@ type User {
   name: String!
   routines: [Routine!] @relation
   tasks: [Task!] @relation
-  childs: [Child!]
-}
-
-type Child {
-  name: String!
-  birthday: Time!
-  parent: User! @relation
 }
 
 type Task {

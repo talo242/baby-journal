@@ -9,10 +9,10 @@ interface useFetchResponse<T extends object> {
   data: T;
 }
 
-const useFetch = <T extends object>(query: string): useFetchResponse<T> => {
+const useQuery = <T extends object>(query: string): useFetchResponse<T> => {
   const { data, error } = useSWR(query, fetcher)
   const loading = !data && !error;
   return { data, error, loading }
 }
 
-export default useFetch
+export default useQuery
