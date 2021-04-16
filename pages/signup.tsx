@@ -1,7 +1,22 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import Head from 'next/head';
 import Link from 'next/link';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Button, Input, LoginLayout } from '../components';
+import styled from 'styled-components';
+
+const FormFooter = styled.div`
+  margin-top: 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  p {
+    margin: 0;
+  }
+`;
 
 const SignupPage = () => {
   const router = useRouter();
@@ -31,31 +46,38 @@ const SignupPage = () => {
   };
 
   return (
-    <div>
-      <h1>Signup</h1>
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        onSubmit={(values, { setSubmitting }) => {
-          handleSubmit(values);
-          setSubmitting(false);
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Field type="email" name="email" />
-            <ErrorMessage name="email" component="div" />
-            <Field type="password" name="password" />
-            <ErrorMessage name="password" component="div" />
-            <button type="submit" disabled={isSubmitting}>
-              Submit
-            </button>
-          </Form>
-        )}
-      </Formik>
-      <p>
-        Already have an account? <Link href={'/login'}>Login</Link>
-      </p>
-    </div>
+    <LoginLayout>
+      <Head>
+        <title>Signup | BabyDo</title>
+      </Head>
+      <div>
+        <h1>Signup</h1>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          onSubmit={(values, { setSubmitting }) => {
+            console.log(values);
+            handleSubmit(values);
+            setSubmitting(false);
+          }}
+          render={({ isSubmitting, handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
+              <Input label="Email" type="email" name="email" />
+              <ErrorMessage name="email" component="div" />
+              <Input label="Password" type="password" name="password" />
+              <ErrorMessage name="password" component="div" />
+              <FormFooter>
+                <p>
+                  Already have an account? <Link href={'/login'}>Login</Link>
+                </p>
+                <Button type="submit" disabled={isSubmitting}>
+                  Submit
+                </Button>
+              </FormFooter>
+            </Form>
+          )}
+        />
+      </div>
+    </LoginLayout>
   );
 };
 
