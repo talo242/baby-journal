@@ -1,13 +1,14 @@
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { ErrorMessage, Field, Form, Formik } from 'formik'
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import Link from 'next/link';
 
 const SignupPage = () => {
-  const router = useRouter()
-  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (values) => {
-    if (errorMessage) setErrorMessage('')
+    if (errorMessage) setErrorMessage('');
 
     try {
       const res = await fetch('/api/signup', {
@@ -16,42 +17,27 @@ const SignupPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
-      })
+      });
 
       if (res.ok) {
-        router.push('/')
+        router.push('/');
       } else {
-        throw new Error(await res.text())
+        throw new Error(await res.text());
       }
     } catch (error) {
-      console.error(error)
-      setErrorMessage(error.message)
+      console.error(error);
+      setErrorMessage(error.message);
     }
-  }
+  };
 
   return (
     <div>
       <h1>Signup</h1>
       <Formik
         initialValues={{ email: '', password: '' }}
-        // validate={(values) => {
-        //   const errors = {}
-        //
-        //   if (!values.title) {
-        //     errors.title = 'Required'
-        //   }
-        //
-        //   return errors
-        // }}
         onSubmit={(values, { setSubmitting }) => {
-          handleSubmit(values)
-          setSubmitting(false)
-          // console.log(values)
-          // setTimeout(() => {
-          //   // alert(JSON.stringify(values, null, 2))
-          //   //
-          //   // setSubmitting(false)
-          // }, 400)
+          handleSubmit(values);
+          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
@@ -66,8 +52,11 @@ const SignupPage = () => {
           </Form>
         )}
       </Formik>
+      <p>
+        Already have an account? <Link href={'/login'}>Login</Link>
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default SignupPage
+export default SignupPage;

@@ -1,18 +1,22 @@
-import { graphQLClient } from "./graphql-client";
-import useSWR from "swr";
-
-const fetcher = async (query) => await graphQLClient.request(query)
+import { graphQLClient } from './graphql-client';
+import useSWR from 'swr';
 
 interface useFetchResponse<T extends object> {
+  mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
   loading: boolean;
   error: string;
   data: T;
 }
 
-const useQuery = <T extends object>(query: string): useFetchResponse<T> => {
-  const { data, error } = useSWR(query, fetcher)
+const useQuery = <T extends object>(
+  query: string,
+  token: string
+): useFetchResponse<T> => {
+  const fetcher = async (query) => await graphQLClient(token).request(query);
+  const { data, error, mutate } = useSWR(query, fetcher);
   const loading = !data && !error;
-  return { data, error, loading }
-}
 
-export default useQuery
+  return { loading, error, data, mutate };
+};
+
+export default useQuery;

@@ -1,5 +1,6 @@
-import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+import Link from 'next/link';
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 
 const SignupPage = () => {
@@ -66,6 +67,7 @@ const SignupPage = () => {
           </Form>
         )}
       </Formik>
+      <p>Don't have an account? <Link href={'/signup'}>Sign up</Link></p>
     </div>
   )
 }
