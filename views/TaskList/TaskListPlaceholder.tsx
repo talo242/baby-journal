@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
-import Colors from '../Colors';
+import Colors from '../../components/Colors';
 import { TaskListContainer } from './TaskList';
 
 const TaskListPlaceholderContainer = styled.div`

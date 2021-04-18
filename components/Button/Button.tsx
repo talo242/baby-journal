@@ -72,6 +72,19 @@ const BaseButton = styled.button`
     `}
 `;
 
+
+export const CreateNewButton = styled.button`
+  border: none;
+  background-color: transparent;
+  color: ${Colors.primary};
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  height: 32px;
+  width: 100%;
+  text-align: left;
+  letter-spacing: 0.03em;
+`;
+
 const Button = (props: ButtonProps) => {
   const { children, type, disabled, loading, onClick, variant } = props;
   return (

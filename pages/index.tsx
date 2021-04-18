@@ -2,23 +2,23 @@ import React from 'react';
 import Head from 'next/head';
 import { getAuthCookie } from '../utils/auth-cookies';
 import Layout from '../components/Layout';
-import RoutineList from '../components/RoutineList/RoutineList';
+import RoutineList from '../views/RoutineList/RoutineList';
 import { InnerContainer } from '../components/Layout/Layout';
-import TaskListPlaceholder from '../components/TaskList/TaskListPlaceholder';
+import TaskListPlaceholder from '../views/TaskList/TaskListPlaceholder';
 
 const Home = (props) => {
   const { token } = props;
 
   return (
-    <Layout>
-      <Head>
-        <title>Your routines</title>
-      </Head>
-      <InnerContainer>
-        <RoutineList token={token} />
-        <TaskListPlaceholder />
-      </InnerContainer>
-    </Layout>
+      <Layout>
+        <Head>
+          <title>Your routines</title>
+        </Head>
+        <InnerContainer>
+          <RoutineList token={token} />
+          <TaskListPlaceholder />
+        </InnerContainer>
+      </Layout>
   );
 };
 

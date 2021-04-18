@@ -4,8 +4,9 @@ import Colors from './Colors';
 import Button from './Button';
 import LoginLayout from './Layout/LoginLayout';
 import Input from './Input';
-import RoutineList from './RoutineList/RoutineList';
-import TaskList from './TaskList';
+import RoutineList from '../views/RoutineList/RoutineList';
+import TaskList from '../views/TaskList';
+import Modal from './Modal';
 
 export {
   Header,
@@ -16,4 +17,5 @@ export {
   Input,
   TaskList,
   RoutineList,
+  Modal,
 };

@@ -1,39 +1,17 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { gql } from 'graphql-request';
-import useSWR from 'swr';
 import { getAuthCookie } from '../../utils/auth-cookies';
-import { Layout, RoutineList, TaskList } from '../../components';
+import { Layout, RoutineList } from '../../components';
 import { InnerContainer } from '../../components/Layout/Layout';
-import { graphQLClient } from '../../utils/graphql-client';
+import TaskView from '../../views/TaskList/TaskView';
+import useFetchRoutine from '../../utils/useFetchRoutine';
 
 const RoutinePage = (props) => {
   const { token } = props;
   const router = useRouter();
   const { rid } = router.query;
-  const fetcher = async (query) => await graphQLClient(token).request(query);
-  const { data, error } = useSWR(
-    [
-      gql`
-        query {
-          findRoutineByID(id: ${rid}) {
-            _id
-            title
-            tasks {
-              data {
-                _id
-                title
-                due
-                completed
-              }
-            }
-          }
-        }
-      `,
-    ],
-    fetcher
-  );
+  const { data, error } = useFetchRoutine(rid, token);
 
   return (
     <Layout>
@@ -42,7 +20,7 @@ const RoutinePage = (props) => {
       </Head>
       <InnerContainer>
         <RoutineList token={token} />
-        <TaskList data={data} error={error} />
+        <TaskView token={token} data={data} error={error} />
       </InnerContainer>
     </Layout>
   );

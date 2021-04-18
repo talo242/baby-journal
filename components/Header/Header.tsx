@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 import Button from '../Button';
+import useUser from '../../utils/useUser';
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -20,7 +20,7 @@ const HeaderContainer = styled.div`
 
 const Header = () => {
   const router = useRouter();
-  const { mutate: mutateUser } = useSWR('/api/user');
+  const { mutate: mutateUser } = useUser();
 
   const handleLogout = async () => {
     const res = await fetch('/api/logout');
