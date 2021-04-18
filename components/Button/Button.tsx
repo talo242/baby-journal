@@ -5,9 +5,11 @@ import Spinner from '../Loader/Spinner';
 
 interface ButtonProps {
   children: React.ReactNode;
-  type: string;
-  disabled: boolean;
+  type?: string;
+  disabled?: boolean;
   loading?: boolean;
+  onClick?: (event: React.MouseEvent) => void;
+  variant?: 'outlined' | 'filled';
 }
 
 const BaseButton = styled.button`
@@ -60,12 +62,25 @@ const BaseButton = styled.button`
   svg {
     margin-right: 8px;
   }
+
+  ${(props) =>
+    props.variant === 'outlined' &&
+    `
+      border: 1px solid ${Colors.primary};
+      background-color: white;
+      color: ${Colors.primary}
+    `}
 `;
 
 const Button = (props: ButtonProps) => {
-  const { children, type, disabled, loading } = props;
+  const { children, type, disabled, loading, onClick, variant } = props;
   return (
-    <BaseButton type={type} disabled={disabled}>
+    <BaseButton
+      variant={variant}
+      type={type || 'button'}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {loading ? (
         <>
           <Spinner />

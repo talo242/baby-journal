@@ -61,7 +61,6 @@ const SignupPage = () => {
           initialValues={{ email: '', password: '' }}
           validationSchema={SignupSchema}
           onSubmit={(values, { setSubmitting }) => {
-            console.log(values);
             handleSubmit(values);
             setSubmitting(false);
           }}

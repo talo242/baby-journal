@@ -10,10 +10,11 @@ interface useFetchResponse<T extends object> {
 
 const useQuery = <T extends object>(
   query: string,
-  token: string
+  token: string,
+  variables?: unknown
 ): useFetchResponse<T> => {
   const fetcher = async (query) => await graphQLClient(token).request(query);
-  const { data, error, mutate } = useSWR(query, fetcher);
+  const { data, error, mutate } = useSWR([query, variables], fetcher);
   const loading = !data && !error;
 
   return { loading, error, data, mutate };

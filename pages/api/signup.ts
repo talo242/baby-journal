@@ -5,8 +5,6 @@ import { setAuthCookie } from '../../utils/auth-cookies'
 export default async function signup(req, res) {
   const { email, password } = req.body
 
-  console.log(email, password)
-
   if (!email || !password) {
     return res.status(400).send('Email and Password not provided')
   }
