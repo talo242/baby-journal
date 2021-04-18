@@ -1,5 +1,5 @@
 import React from 'react';
-import Spinner from './Spinner';
+import Spinner from '../Icons/Spinner';
 import styled from 'styled-components';
 import Colors from '../Colors';
 

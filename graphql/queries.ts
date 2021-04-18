@@ -23,15 +23,22 @@ const ROUTINE_INFO_FRAGMENT = gql`
   ${TASK_INFO_FRAGMENT}
 `;
 
+export const ROUTINE_ALL_INFO = gql`
+  fragment RoutineAllInfo on Routine {
+    _id
+    title
+  }
+`;
+
 export const FETCH_ALL_ROUTINES = gql`
   query FetchAllRoutines {
     allRoutines {
       data {
-        _id
-        title
+        ...RoutineAllInfo
       }
     }
   }
+  ${ROUTINE_ALL_INFO}
 `;
 
 export const FIND_ROUTINE_BY_ID = gql`

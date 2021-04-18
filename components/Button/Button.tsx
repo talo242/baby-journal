@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Colors from '../Colors';
-import Spinner from '../Loader/Spinner';
+import Spinner from '../Icons/Spinner';
 
 interface ButtonProps {
   children: React.ReactNode;

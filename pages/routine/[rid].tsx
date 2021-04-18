@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 import { getAuthCookie } from '../../utils/auth-cookies';
 import { Layout, RoutineList } from '../../components';
 import { InnerContainer } from '../../components/Layout/Layout';
@@ -15,9 +14,6 @@ const RoutinePage = (props) => {
 
   return (
     <Layout>
-      <Head>
-        <title>Routine {rid}</title>
-      </Head>
       <InnerContainer>
         <RoutineList token={token} />
         <TaskView token={token} data={data} error={error} />

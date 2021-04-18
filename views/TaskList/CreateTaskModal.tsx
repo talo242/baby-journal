@@ -7,26 +7,16 @@ import {
   StyledErrorMessage,
 } from '../../components/Layout/LoginLayout';
 import { Button, Input } from '../../components';
-import styled from 'styled-components';
 import useUser from '../../utils/useUser';
 import dayjs from 'dayjs';
 import useFetchRoutine from '../../utils/useFetchRoutine';
 import useCreateTaskMutation from '../../utils/useCreateTaskMutation';
+import { ModalFormFooter } from '../../components/Modal/Modal';
 
 const TaskSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
   due: Yup.string().required('Required'),
 });
-
-const ModalFormFooter = styled.div`
-  display: flex;
-  button:first-child {
-    margin-left: auto;
-  }
-  button:last-child {
-    margin-left: 8px;
-  }
-`;
 
 const CreateTaskModal = (props) => {
   const { onClose, token, routine } = props;

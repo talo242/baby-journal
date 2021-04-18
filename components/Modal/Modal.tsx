@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import CloseIcon from './CloseIcon';
+import CloseIcon from '../Icons/CloseIcon';
 import { H1 } from '../Typography/Typography';
 
 interface ModalProps {
@@ -42,6 +42,17 @@ const CloseButton = styled.button`
   margin-left: auto;
   padding: 4px 10px;
 `
+
+export const ModalFormFooter = styled.div`
+  display: flex;
+  button:first-child {
+    margin-left: auto;
+  }
+  button:last-child {
+    margin-left: 8px;
+  }
+`;
+
 
 const Modal = (props: ModalProps) => {
   const { children, onClose, title } = props;
