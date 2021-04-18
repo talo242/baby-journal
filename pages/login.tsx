@@ -1,21 +1,15 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { Button, Input, LoginLayout } from '../components';
 import * as Yup from 'yup';
-import styled from 'styled-components';
-
-const FormFooter = styled.div`
-  margin-top: 32px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  p {
-    margin: 0;
-  }
-`;
+import {
+  FormFooter,
+  StyledErrorMessage,
+  InputContainer,
+  Error,
+} from '../components/Layout/LoginLayout';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -25,11 +19,13 @@ const LoginSchema = Yup.object().shape({
 const LoginPage = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (values) => {
     if (errorMessage) setErrorMessage('');
 
     try {
+      setLoading(true);
       const res = await fetch('/api/login', {
         method: 'POST',
         headers: {
@@ -39,13 +35,16 @@ const LoginPage = () => {
       });
 
       if (res.ok) {
+        setLoading(false);
         router.push('/');
       } else {
-        throw new Error(await res.text());
+        setLoading(false);
+        res.text().then((text) => {
+          setErrorMessage(text);
+        });
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage(error.message);
     }
   };
 
@@ -61,21 +60,26 @@ const LoginPage = () => {
         }}
         render={({ isSubmitting, handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <Input label="Email" type="email" name="email" />
-            <ErrorMessage name="email" component="div" />
-            <Input label="Password" type="password" name="password" />
-            <ErrorMessage name="password" component="div" />
+            <InputContainer>
+              <Input label="Email *" type="email" name="email" />
+              <StyledErrorMessage name="email" component="div" />
+            </InputContainer>
+            <InputContainer>
+              <Input label="Password *" type="password" name="password" />
+              <StyledErrorMessage name="password" component="div" />
+            </InputContainer>
             <FormFooter>
               <p>
                 Don't have an account? <Link href={'/signup'}>Sign up</Link>
               </p>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button loading={loading} type="submit" disabled={isSubmitting}>
                 Submit
               </Button>
             </FormFooter>
           </Form>
         )}
       />
+      {errorMessage && <Error>{errorMessage}</Error>}
     </LoginLayout>
   );
 };

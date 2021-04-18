@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import Colors from '../Colors';
+import Spinner from '../Loader/Loader';
 
 interface ButtonProps {
   children: React.ReactNode;
   type: string;
   disabled: boolean;
+  loading?: boolean;
 }
 
 const BaseButton = styled.button`
@@ -22,6 +24,8 @@ const BaseButton = styled.button`
   padding: 12px 24px;
   background-color: ${Colors.primary};
   color: white;
+  display: flex;
+  align-items: center;
 
   &:active {
     filter: brightness(0.95);
@@ -52,13 +56,24 @@ const BaseButton = styled.button`
       box-shadow: none;
     }
   `}
+
+  svg {
+    margin-right: 8px;
+  }
 `;
 
 const Button = (props: ButtonProps) => {
-  const { children, type, disabled } = props;
+  const { children, type, disabled, loading } = props;
   return (
     <BaseButton type={type} disabled={disabled}>
-      {children}
+      {loading ? (
+        <>
+          <Spinner />
+          Loading
+        </>
+      ) : (
+        children
+      )}
     </BaseButton>
   );
 };

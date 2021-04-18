@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Colors from '../Colors';
+import { ErrorMessage } from 'formik';
 
 interface LoginLayoutProps {
   children: React.ReactNode;
@@ -29,7 +30,7 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 const Subtitle = styled.p`
   margin-top: 16px;
@@ -40,9 +41,38 @@ const Subtitle = styled.p`
 
 const LogoContainer = styled.div`
   margin-top: 16px;
-`
+`;
 
-const LoginLayout = (props) => {
+export const FormFooter = styled.div`
+  margin-top: 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  p {
+    margin: 0;
+  }
+`;
+
+export const Error = styled.p`
+  color: red;
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+`;
+
+export const StyledErrorMessage = styled(ErrorMessage)`
+  color: red;
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+`;
+
+export const InputContainer = styled.div`
+  margin-bottom: 24px;
+`;
+
+const LoginLayout = (props: LoginLayoutProps) => {
   const { children } = props;
   return (
     <Background>

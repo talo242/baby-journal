@@ -30,7 +30,6 @@ const StyledInput = styled(Field)`
   font-size: 14px;
   font-family: 'Nunito', Arial, Helvetica, sans-serif;
   padding: 0 16px;
-  margin: 0 0 16px;
   transition: all 0.1s ease;
   vertical-align: middle;
 
