@@ -3,8 +3,7 @@ import useSWR from 'swr';
 
 const Header = () => {
   const router = useRouter();
-  const fetcher = (url) => fetch(url).then((r) => r.json());
-  const { data, mutate: mutateUser } = useSWR('/api/user', fetcher);
+  const { mutate: mutateUser } = useSWR('/api/user');
 
   const handleLogout = async () => {
     const res = await fetch('/api/logout');
@@ -13,8 +12,6 @@ const Header = () => {
       await router.push('/login');
     }
   };
-
-  console.log(data);
 
   return (
     <div>

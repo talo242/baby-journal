@@ -10,6 +10,9 @@ import { getAuthCookie } from '../utils/auth-cookies';
 import Layout from '../components/Layout';
 import { CREATE_ROUTINE } from '../graphql/mutations';
 import useQuery from '../utils/useQuery';
+import Spinner from '../components/Loader/Spinner';
+import { Colors } from '../components';
+import Loader from '../components/Loader/Loader';
 
 interface User {
   id: string;
@@ -56,7 +59,7 @@ const Home = (props) => {
     }
   };
 
-  if (loading) return <div>Loading</div>;
+  if (loading) return <Loader />;
   if (error) return <div>Error returning all the routines</div>;
 
   return (

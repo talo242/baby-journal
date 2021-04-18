@@ -68,11 +68,11 @@ const SignupPage = () => {
           render={({ isSubmitting, handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
               <InputContainer>
-                <Input label="Email" type="email" name="email" />
+                <Input label="Email *" type="email" name="email" />
                 <StyledErrorMessage name="email" component="div" />
               </InputContainer>
               <InputContainer>
-                <Input label="Password" type="password" name="password" />
+                <Input label="Password *" type="password" name="password" />
                 <StyledErrorMessage name="password" component="div" />
               </InputContainer>
               <FormFooter>
