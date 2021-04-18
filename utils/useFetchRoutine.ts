@@ -7,20 +7,20 @@ const useFetchRoutine = (id, token) => {
   const { data, error, mutate } = useSWR(
     [
       gql`
-          query {
-              findRoutineByID(id: ${id}) {
-                  _id
-                  title
-                  tasks {
-                      data {
-                          _id
-                          title
-                          due
-                          completed
-                      }
-                  }
+      query {
+        findRoutineByID(id: ${id}) {
+            _id
+            title
+            tasks {
+                data {
+                _id
+                title
+                due
+                completed
               }
+            }
           }
+        }
       `,
     ],
     fetcher,

@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import useSWR from 'swr';
 import { H1 } from '../../components/Typography/Typography';
 import Colors from '../../components/Colors';
-import { FETCH_ALL_ROUTINES } from '../../graphql/queries';
 import Loader from '../../components/Loader/Loader';
 import CreateRoutineModal from './CreateRoutineModal';
-import { graphQLClient } from '../../utils/graphql-client';
 import { CreateNewButton } from '../../components/Button/Button';
+import useFetchAllRoutines from '../../utils/useFetchAllRoutines';
 
 interface RoutineListProps {
   token: string;
@@ -50,14 +48,7 @@ const RoutineList = (props: RoutineListProps) => {
   const router = useRouter();
   const { rid } = router.query;
   const [createRoutine, setCreateRoutine] = useState<boolean>(false);
-  const fetcher = async (query) => await graphQLClient(token).request(query);
-  const { data, error, mutate: updateRoutines } = useSWR(
-    FETCH_ALL_ROUTINES,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-    }
-  );
+  const { data, error, mutate: updateRoutines } = useFetchAllRoutines(token);
 
   const toggleCreateRoutine = () => setCreateRoutine(!createRoutine);
 

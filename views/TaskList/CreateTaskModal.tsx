@@ -8,11 +8,10 @@ import {
 } from '../../components/Layout/LoginLayout';
 import { Button, Input } from '../../components';
 import styled from 'styled-components';
-import { graphQLClient } from '../../utils/graphql-client';
-import { gql } from 'graphql-request';
 import useUser from '../../utils/useUser';
 import dayjs from 'dayjs';
 import useFetchRoutine from '../../utils/useFetchRoutine';
+import useCreateTaskMutation from '../../utils/useCreateTaskMutation';
 
 const TaskSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
@@ -34,35 +33,14 @@ const CreateTaskModal = (props) => {
   const [crateError, setCreateError] = useState<string | undefined>();
   const { mutate } = useFetchRoutine(routine._id, token);
   const { data: user } = useUser();
+  const createTaskMutation = useCreateTaskMutation(token);
 
   const handleCreateTask = async (values) => {
     const parsedTime = values.due.split(':');
     const due = dayjs().hour(parsedTime[0]).minute(parsedTime[1]);
-    const mutation = gql`
-      mutation CreateTaskMutation(
-        $title: String!
-        $due: Time!
-        $routine: ID!
-        $owner: ID!
-      ) {
-        createTask(
-          data: {
-            title: $title
-            due: $due
-            completed: false
-            owner: { connect: $owner }
-            routine: { connect: $routine }
-          }
-        ) {
-          _id
-          title
-          completed
-        }
-      }
-    `;
 
     try {
-      await graphQLClient(token).request(mutation, {
+      await createTaskMutation({
         title: values.title,
         due: due,
         routine: routine._id,
