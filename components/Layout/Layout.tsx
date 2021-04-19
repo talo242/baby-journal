@@ -16,6 +16,11 @@ const Container = styled.div`
 
 export const InnerContainer = styled.div`
   display: flex;
+  flex-direction: column;
+
+  @media (min-width: 800px) {
+   flex-direction: row;
+  }
 `
 
 const Layout = (props) => {

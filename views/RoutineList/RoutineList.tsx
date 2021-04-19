@@ -14,8 +14,15 @@ interface RoutineListProps {
 }
 
 const RoutineContainer = styled.div`
-  width: 35%;
-  padding-right: 16px;
+  width: 100%;
+  padding: 0 16px;
+  margin-bottom: 32px;
+
+  @media (min-width: 800px) {
+    padding-right: 16px;
+    width: 35%;
+    margin-bottom: 0;
+  }
 `;
 
 const RoutineListElement = styled.li`

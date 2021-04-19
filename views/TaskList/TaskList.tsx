@@ -12,10 +12,14 @@ import { OptionsDropdown } from '../../components';
 import CompletedNotification from '../../components/Button/CompletedNotification/CompletedNotification';
 
 export const TaskListContainer = styled.div`
-  width: 75%;
+  width: 100%;
   background: white;
   border-radius: 4px;
   padding: 42px;
+
+  @media (min-width: 800px) {
+    width: 75%;
+  }
 `;
 
 const RoutineHeader = styled.div`

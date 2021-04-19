@@ -12,7 +12,7 @@ const Dropdown = styled.div`
   padding: 0;
   background-color: white;
   color: white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 96, 0.25);
+  box-shadow: 0 4px 8px rgba(0, 0, 96, 0.25);
   border-radius: 5px;
   display: flex;
   flex-flow: column;
@@ -26,10 +26,11 @@ const Dropdown = styled.div`
 const DropdownButton = styled.button`
   background-color: transparent;
   border: none;
-  padding: 8px 16px;
+  padding: 12px 24px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-family: Nunito, sans-serif;
 
   &:hover,
   &:focus {
