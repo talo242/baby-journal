@@ -8,6 +8,7 @@ import UpdateTaskModal from './UpdateTaskModal';
 import EditButton from '../../components/Button/EditButton';
 import DeleteButton from '../../components/Button/DeleteButton';
 import Spinner from '../../components/Icons/Spinner';
+import DeleteTaskModal from './DeleteTaskModal';
 
 const TaskContainer = styled.div`
   display: flex;
@@ -153,6 +154,14 @@ const Task = (props) => {
       {updateTaskHandler && (
         <UpdateTaskModal
           onClose={toggleUpdateTask}
+          token={token}
+          routine={routine}
+          task={task}
+        />
+      )}
+      {deleteTaskHandler && (
+        <DeleteTaskModal
+          onClose={toggleDeleteTask}
           token={token}
           routine={routine}
           task={task}

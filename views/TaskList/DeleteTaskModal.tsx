@@ -1,33 +1,31 @@
 import React, { useState } from 'react';
-import useFetchAllRoutines from '../../utils/useFetchAllRoutines';
 import { Button, Modal } from '../../components';
 import { Error } from '../../components/Layout/LoginLayout';
-import { useRouter } from 'next/router';
 import { ModalFormFooter } from '../../components/Modal/Modal';
 import styled from 'styled-components';
-import useDeleteRoutineMutation from '../../utils/useDeleteRoutineMutation';
+import useFetchRoutine from '../../utils/useFetchRoutine';
+import useDeleteTaskMutation from '../../utils/useDeleteTaskMutation';
 
 const TextContainer = styled.div`
   margin-bottom: 32px;
 `;
 
-const DeleteRoutineModal = (props) => {
-  const { onClose, token, routine } = props;
+const DeleteTaskModal = (props) => {
+  const { onClose, token, routine, task } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<string | undefined>();
-  const { mutate: updateRoutines } = useFetchAllRoutines(token);
-  const deleteRoutine = useDeleteRoutineMutation(token);
-  const router = useRouter();
+  const { mutate: updateRoutine } = useFetchRoutine(routine._id, token);
+  const deleteTask = useDeleteTaskMutation(token)
 
-  const handleDeleteRoutine = async () => {
+  const handleDeleteTask = async () => {
     try {
       setLoading(true);
-      await deleteRoutine({
-        id: routine._id,
+      await deleteTask({
+        id: task._id,
       });
-      updateRoutines().then(() => {
-        router.push('/');
+      updateRoutine().then(() => {
         setLoading(false);
+        onClose();
       });
     } catch (error) {
       setDeleteError(error.message);
@@ -37,9 +35,7 @@ const DeleteRoutineModal = (props) => {
   return (
     <Modal title="Delete routine" onClose={onClose}>
       <TextContainer>
-        <p>
-          Are you sure you want to delete the routine <b>{routine.title}</b>?
-        </p>
+        <p>Are you sure you want to delete the task <b>{task.title}</b>?</p>
         <p style={{ color: 'red' }}>This action cannot be undone</p>
       </TextContainer>
       <ModalFormFooter>
@@ -49,7 +45,7 @@ const DeleteRoutineModal = (props) => {
         <Button
           loading={loading}
           disabled={loading}
-          onClick={handleDeleteRoutine}
+          onClick={handleDeleteTask}
         >
           Delete
         </Button>
@@ -59,4 +55,4 @@ const DeleteRoutineModal = (props) => {
   );
 };
 
-export default DeleteRoutineModal;
+export default DeleteTaskModal;
