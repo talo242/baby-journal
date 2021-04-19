@@ -1,26 +1,12 @@
 import { gql } from 'graphql-request';
 
-const TASK_INFO_FRAGMENT = gql`
+export const TASK_INFO_FRAGMENT = gql`
   fragment TaskInfoFragment on Task {
-    _id: ID
-    due: Time
-    completed: Boolean
-    owner: User
-    title: String
-  }
-`;
-
-const ROUTINE_INFO_FRAGMENT = gql`
-  fragment RoutineInfoFragment on Routine {
     _id
+    due
+    completed
     title
-    tasks {
-      data {
-        ...TaskInfoFragment
-      }
-    }
   }
-  ${TASK_INFO_FRAGMENT}
 `;
 
 export const ROUTINE_ALL_INFO = gql`
@@ -39,11 +25,4 @@ export const FETCH_ALL_ROUTINES = gql`
     }
   }
   ${ROUTINE_ALL_INFO}
-`;
-
-export const FIND_ROUTINE_BY_ID = gql`
-  query FindRoutineById($id: ID!) {
-    ...RoutineInfoFragment
-  }
-  ${ROUTINE_INFO_FRAGMENT}
 `;

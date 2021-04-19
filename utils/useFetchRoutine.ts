@@ -5,8 +5,7 @@ import { gql } from 'graphql-request';
 const useFetchRoutine = (id, token) => {
   const fetcher = async (query) => await graphQLClient(token).request(query);
   const { data, error, mutate } = useSWR(
-    [
-      gql`
+    gql`
       query {
         findRoutineByID(id: ${id}) {
             _id
@@ -22,7 +21,6 @@ const useFetchRoutine = (id, token) => {
           }
         }
       `,
-    ],
     fetcher,
     { revalidateOnFocus: false }
   );

@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Colors from '../../components/Colors';
 import dayjs from 'dayjs';
+import useUpdateTaskMutation from '../../utils/useUpdateTaskMutation';
+import useFetchRoutine from '../../utils/useFetchRoutine';
+import UpdateTaskModal from './UpdateTaskModal';
+import EditButton from '../../components/Button/EditButton';
+import DeleteButton from '../../components/Button/DeleteButton';
+import Spinner from '../../components/Icons/Spinner';
 
 const TaskContainer = styled.div`
   display: flex;
-  padding: 8px;
+  padding: 8px 0 8px 8px;
   align-items: center;
 `;
 
@@ -38,6 +44,7 @@ const TaskP = styled.p`
   display: flex;
   justify-content: space-between;
   position: relative;
+  align-items: center;
 
   ${({ completed }) =>
     completed &&
@@ -56,11 +63,14 @@ const TaskP = styled.p`
 `;
 
 const Time = styled.span`
- 
-  ${({ overdue}) => overdue && `
+  margin: 0 24px 0 auto;
+
+  ${({ overdue }) =>
+    overdue &&
+    `
     color: red;
   `}
-`
+`;
 
 const Checked = () => (
   <svg
@@ -76,17 +86,79 @@ const Checked = () => (
 );
 
 const Task = (props) => {
-  const { task } = props;
-  const due = dayjs(task.due)
-  const overdue = due.isBefore(dayjs()) && !task.completed
+  const { task, token, routine } = props;
+  const [loading, setLoading] = useState<boolean>(false);
+  const [updateTaskHandler, setUpdateTaskHandler] = useState<boolean>(false);
+  const [deleteTaskHandler, setDeleteTask] = useState<boolean>(false);
+  const due = dayjs(task.due);
+  const overdue = due.isBefore(dayjs()) && !task.completed;
+  const updateTask = useUpdateTaskMutation(token);
+  const { mutate: updateRoutine } = useFetchRoutine(routine._id, token);
+
+  const toggleUpdateTask = () => setUpdateTaskHandler(!updateTaskHandler);
+  const toggleDeleteTask = () => setDeleteTask(!deleteTaskHandler);
+
+  const onUpdateTask = async (variables) => {
+    try {
+      setLoading(true);
+      await updateTask(variables);
+      await updateRoutine((data) => {
+        return {
+          findRoutineByID: {
+            ...data.findRoutineByID,
+            tasks: {
+              data: data.findRoutineByID.tasks.data.map((task) => {
+                if (task._id === variables.id) {
+                  return variables;
+                } else {
+                  return task;
+                }
+              }),
+            },
+          },
+        };
+      }, false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const onCheck = () => {
+    onUpdateTask({
+      id: task._id,
+      title: task.title,
+      due: task.due,
+      completed: !task.completed,
+    }).then(() => setLoading(false));
+  };
+
   return (
-    <TaskContainer>
-      <CheckButton>{task.completed ? <Checked /> : <Check />}</CheckButton>
-      <TaskP completed={task.completed}>
-        <span>{task.title}</span>
-        <Time overdue={overdue}>{due.format('HH:mm')} hrs.</Time>
-      </TaskP>
-    </TaskContainer>
+    <>
+      <TaskContainer>
+        <CheckButton onClick={onCheck}>
+          {loading && (
+            <Spinner color={Colors.primary} height="18px" width="18px" />
+          )}
+          {!loading && (task.completed ? <Checked /> : <Check />)}
+        </CheckButton>
+        <TaskP completed={task.completed}>
+          <span>{task.title}</span>
+          <Time overdue={overdue}>{due.format('HH:mm')} hrs.</Time>
+          <div>
+            <EditButton onClick={toggleUpdateTask} />
+            <DeleteButton onClick={toggleDeleteTask} />
+          </div>
+        </TaskP>
+      </TaskContainer>
+      {updateTaskHandler && (
+        <UpdateTaskModal
+          onClose={toggleUpdateTask}
+          token={token}
+          routine={routine}
+          task={task}
+        />
+      )}
+    </>
   );
 };
 

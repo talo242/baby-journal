@@ -1,3 +1,5 @@
+import React from 'react';
+
 const PencilIcon = () => {
   return (
     <svg
@@ -15,4 +17,4 @@ const PencilIcon = () => {
   );
 };
 
-export default PencilIcon
+export default PencilIcon;

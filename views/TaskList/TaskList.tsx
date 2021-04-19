@@ -7,26 +7,15 @@ import { CreateNewButton } from '../../components/Button/Button';
 import CreateTaskModal from './CreateTaskModal';
 import Head from 'next/head';
 import UpdateRoutineModal from '../RoutineList/UpdateRoutineModal';
-import PencilIcon from '../../components/Icons/PencilIcon';
-import Trash from '../../components/Icons/Trash';
 import DeleteRoutineModal from '../RoutineList/DeleteRoutineModal';
+import EditButton from '../../components/Button/EditButton';
+import DeleteButton from '../../components/Button/DeleteButton';
 
 export const TaskListContainer = styled.div`
-  flex: 1;
+  width: 75%;
   background: white;
   border-radius: 4px;
   padding: 42px;
-`;
-
-const OptionsButton = styled.button`
-  border: none;
-  padding: 8px 10px;
-  border-radius: 4px;
-  background-color: white;
-
-  &:hover {
-    background-color: #efefef;
-  }
 `;
 
 const RoutineHeader = styled.div`
@@ -38,11 +27,11 @@ const RoutineHeader = styled.div`
 const TaskList = (props) => {
   const { data, error, token } = props;
   const [createTask, setCreateTask] = useState<boolean>(false);
-  const [updateRoutine, setUpdateRoutine] = useState<boolean>(false);
+  const [updateRoutineHanlder, setUpdateRoutine] = useState<boolean>(false);
   const [deleteRoutine, setDeleteRoutine] = useState<boolean>(false);
 
   const toggleCreateTask = () => setCreateTask(!createTask);
-  const toggleUpdateRoutine = () => setUpdateRoutine(!updateRoutine);
+  const toggleUpdateRoutine = () => setUpdateRoutine(!updateRoutineHanlder);
   const toggleDeleteRoutine = () => setDeleteRoutine(!deleteRoutine);
 
   if (!data && !error) return <Loader />;
@@ -57,22 +46,17 @@ const TaskList = (props) => {
         <RoutineHeader>
           <H1>{data.findRoutineByID.title}</H1>
           <div>
-            <OptionsButton
-              onClick={toggleUpdateRoutine}
-              aria-label="Edit routine"
-            >
-              <PencilIcon />
-            </OptionsButton>
-            <OptionsButton
-              onClick={toggleDeleteRoutine}
-              aria-label="Delete routine"
-            >
-              <Trash />
-            </OptionsButton>
+            <EditButton onClick={toggleUpdateRoutine} />
+            <DeleteButton onClick={toggleDeleteRoutine} />
           </div>
         </RoutineHeader>
         {data.findRoutineByID.tasks.data.map((task) => (
-          <Task key={task._id} task={task} />
+          <Task
+            key={task._id}
+            token={token}
+            task={task}
+            routine={data.findRoutineByID}
+          />
         ))}
         <CreateNewButton onClick={toggleCreateTask}>
           + Create new task
@@ -85,7 +69,7 @@ const TaskList = (props) => {
           onClose={toggleCreateTask}
         />
       )}
-      {updateRoutine && (
+      {updateRoutineHanlder && (
         <UpdateRoutineModal
           onClose={toggleUpdateRoutine}
           token={token}

@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
-import useUser from '../../utils/useUser';
 import dayjs from 'dayjs';
 import useFetchRoutine from '../../utils/useFetchRoutine';
-import useCreateTaskMutation from '../../utils/useCreateTaskMutation';
 import TaskForm from './TaskForm';
+import useUpdateTaskMutation from '../../utils/useUpdateTaskMutation';
 
-const CreateTaskModal = (props) => {
-  const { onClose, token, routine } = props;
+const UpdateTaskModal = (props) => {
+  const { onClose, token, routine, task } = props;
   const [createError, setCreateError] = useState<string | undefined>();
   const { mutate } = useFetchRoutine(routine._id, token);
-  const { data: user } = useUser();
-  const createTaskMutation = useCreateTaskMutation(token);
+  const updateTaskMutation = useUpdateTaskMutation(token);
 
-  const handleCreateTask = async (values) => {
+  const handleUpdateTask = async (values) => {
     const parsedTime = values.due.split(':');
     const due = dayjs().hour(parsedTime[0]).minute(parsedTime[1]);
-
     try {
-      await createTaskMutation({
+      await updateTaskMutation({
+        id: task._id,
         title: values.title,
         due: due,
-        routine: routine._id,
-        owner: user.id,
+        completed: task.completed,
       });
       /** Update routine after adding a new task */
       mutate();
@@ -30,14 +27,17 @@ const CreateTaskModal = (props) => {
     }
   };
 
+  const due = `${dayjs(task.due).format('HH').toString()}:${dayjs(task.due).format('mm').toString()}`;
+
   return (
     <TaskForm
-      onSubmit={handleCreateTask}
+      onSubmit={handleUpdateTask}
       onClose={onClose}
       error={createError}
-      buttonText="Create"
+      initialValues={{ title: task.title, due }}
+      buttonText="Edit"
     />
   );
 };
 
-export default CreateTaskModal;
+export default UpdateTaskModal;

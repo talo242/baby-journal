@@ -14,7 +14,7 @@ interface RoutineListProps {
 }
 
 const RoutineContainer = styled.div`
-  flex: 0 1 35%;
+  width: 35%;
   padding-right: 16px;
 `;
 
@@ -52,7 +52,12 @@ const RoutineList = (props: RoutineListProps) => {
 
   const toggleCreateRoutine = () => setCreateRoutine(!createRoutine);
 
-  if (!data && !error) return <Loader />;
+  if (!data && !error)
+    return (
+      <RoutineContainer>
+        <Loader />
+      </RoutineContainer>
+    );
   if (error) return <div>Error returning all routines</div>;
 
   return (
