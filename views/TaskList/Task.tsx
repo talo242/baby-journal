@@ -5,10 +5,9 @@ import dayjs from 'dayjs';
 import useUpdateTaskMutation from '../../utils/useUpdateTaskMutation';
 import useFetchRoutine from '../../utils/useFetchRoutine';
 import UpdateTaskModal from './UpdateTaskModal';
-import EditButton from '../../components/Button/EditButton';
-import DeleteButton from '../../components/Button/DeleteButton';
 import Spinner from '../../components/Icons/Spinner';
 import DeleteTaskModal from './DeleteTaskModal';
+import { OptionsDropdown } from '../../components';
 
 const TaskContainer = styled.div`
   display: flex;
@@ -50,7 +49,9 @@ const TaskP = styled.p`
   ${({ completed }) =>
     completed &&
     `
-    filter: opacity(0.5);
+    span {
+      filter: opacity(0.5);
+    }
   
     &:after {
       content: '';
@@ -103,22 +104,7 @@ const Task = (props) => {
     try {
       setLoading(true);
       await updateTask(variables);
-      await updateRoutine((data) => {
-        return {
-          findRoutineByID: {
-            ...data.findRoutineByID,
-            tasks: {
-              data: data.findRoutineByID.tasks.data.map((task) => {
-                if (task._id === variables.id) {
-                  return variables;
-                } else {
-                  return task;
-                }
-              }),
-            },
-          },
-        };
-      }, false);
+      await updateRoutine();
     } catch (error) {
       console.log(error.message);
     }
@@ -145,10 +131,10 @@ const Task = (props) => {
         <TaskP completed={task.completed}>
           <span>{task.title}</span>
           <Time overdue={overdue}>{due.format('HH:mm')} hrs.</Time>
-          <div>
-            <EditButton onClick={toggleUpdateTask} />
-            <DeleteButton onClick={toggleDeleteTask} />
-          </div>
+          <OptionsDropdown
+            onEdit={toggleUpdateTask}
+            onDelete={toggleDeleteTask}
+          />
         </TaskP>
       </TaskContainer>
       {updateTaskHandler && (

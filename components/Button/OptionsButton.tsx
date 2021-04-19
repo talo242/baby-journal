@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { SquareButton } from './Button';
 
 interface OptionsButton {
   onClick: () => void;
@@ -8,12 +9,14 @@ interface OptionsButton {
 const StyledButton = styled.button`
   border: none;
   background-color: transparent;
+  width: 24px;
+  height: 24px;
 `;
 
 const OptionsButton = (props: OptionsButton) => {
   const { onClick } = props;
   return (
-    <StyledButton onClick={onClick}>
+    <SquareButton onClick={onClick}>
       <svg
         width="16"
         height="4"
@@ -26,7 +29,7 @@ const OptionsButton = (props: OptionsButton) => {
           fill="black"
         />
       </svg>
-    </StyledButton>
+    </SquareButton>
   );
 };
 

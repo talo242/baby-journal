@@ -72,6 +72,22 @@ const BaseButton = styled.button`
     `}
 `;
 
+export const SquareButton = styled.button`
+  border: none;
+  border-radius: 4px;
+  background-color: white;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: #efefef;
+  }
+`;
+
+
 
 export const CreateNewButton = styled.button`
   border: none;

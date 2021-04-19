@@ -7,6 +7,7 @@ import Input from './Input';
 import RoutineList from '../views/RoutineList/RoutineList';
 import TaskList from '../views/TaskList';
 import Modal from './Modal';
+import OptionsDropdown from './OptionsDropdown';
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   TaskList,
   RoutineList,
   Modal,
+  OptionsDropdown,
 };

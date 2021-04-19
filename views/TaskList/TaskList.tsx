@@ -8,8 +8,7 @@ import CreateTaskModal from './CreateTaskModal';
 import Head from 'next/head';
 import UpdateRoutineModal from '../RoutineList/UpdateRoutineModal';
 import DeleteRoutineModal from '../RoutineList/DeleteRoutineModal';
-import EditButton from '../../components/Button/EditButton';
-import DeleteButton from '../../components/Button/DeleteButton';
+import { OptionsDropdown } from '../../components';
 
 export const TaskListContainer = styled.div`
   width: 75%;
@@ -46,8 +45,10 @@ const TaskList = (props) => {
         <RoutineHeader>
           <H1>{data.findRoutineByID.title}</H1>
           <div>
-            <EditButton onClick={toggleUpdateRoutine} />
-            <DeleteButton onClick={toggleDeleteRoutine} />
+            <OptionsDropdown
+              onEdit={toggleUpdateRoutine}
+              onDelete={toggleDeleteRoutine}
+            />
           </div>
         </RoutineHeader>
         {data.findRoutineByID.tasks.data.map((task) => (
