@@ -92,7 +92,9 @@ const TaskList = (props) => {
           routine={data.findRoutineByID}
         />
       )}
-      {tasksLeft === 0 && <CompletedNotification />}
+      {data.findRoutineByID.tasks.data.length > 0 && tasksLeft === 0 && (
+        <CompletedNotification />
+      )}
     </>
   );
 };

@@ -100,10 +100,14 @@ const CompletedNotification = () => {
 
 const NotificationWithTimeout = () => {
   const [active, setActive] = useState<boolean>(true);
+  let timeout;
   useEffect(() => {
-    setTimeout(() => {
+    timeout = setTimeout(() => {
       setActive(false);
     }, 4500);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   if (!active) return null;
