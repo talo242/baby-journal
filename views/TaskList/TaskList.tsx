@@ -9,6 +9,7 @@ import Head from 'next/head';
 import UpdateRoutineModal from '../RoutineList/UpdateRoutineModal';
 import DeleteRoutineModal from '../RoutineList/DeleteRoutineModal';
 import { OptionsDropdown } from '../../components';
+import CompletedNotification from '../../components/Button/CompletedNotification/CompletedNotification';
 
 export const TaskListContainer = styled.div`
   width: 75%;
@@ -35,6 +36,13 @@ const TaskList = (props) => {
 
   if (!data && !error) return <Loader />;
   if (error) return <p>{error}</p>;
+
+  const tasksLeft = data.findRoutineByID.tasks.data.reduce((acc, task) => {
+    if (!task.completed) {
+      return ++acc;
+    }
+    return acc;
+  }, 0);
 
   return (
     <>
@@ -84,6 +92,7 @@ const TaskList = (props) => {
           routine={data.findRoutineByID}
         />
       )}
+      {tasksLeft === 0 && <CompletedNotification />}
     </>
   );
 };
