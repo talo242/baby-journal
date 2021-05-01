@@ -49,6 +49,7 @@ const Spinner = (props: LoaderProps) => {
       viewBox="0 0 512 512"
       width={width || '16'}
       height={height || '16'}
+      data-testid="spinner"
     >
       <g className="fa-group">
         <path
