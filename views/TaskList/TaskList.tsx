@@ -9,7 +9,7 @@ import Head from 'next/head';
 import UpdateRoutineModal from '../RoutineList/UpdateRoutineModal';
 import DeleteRoutineModal from '../RoutineList/DeleteRoutineModal';
 import { OptionsDropdown } from '../../components';
-import CompletedNotification from '../../components/Button/CompletedNotification/CompletedNotification';
+import CompletedNotification from '../../components/CompletedNotification/CompletedNotification';
 
 export const TaskListContainer = styled.div`
   width: 100%;
