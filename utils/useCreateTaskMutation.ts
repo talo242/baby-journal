@@ -1,7 +1,8 @@
 import { gql } from 'graphql-request';
 import { graphQLClient } from './graphql-client';
+import { useMutationFunction } from '../types/useMutation';
 
-const useCreateTaskMutation = (token) => {
+const useCreateTaskMutation = (token: string): useMutationFunction => {
   const mutation = gql`
     mutation CreateTaskMutation(
       $title: String!

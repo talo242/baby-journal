@@ -1,8 +1,13 @@
 import { graphQLClient } from './graphql-client';
 import useSWR from 'swr';
 import { gql } from 'graphql-request';
+import { useFetchResponse } from '../types/useFetch';
+import { FindRoutineByIDResponse } from '../types/Routine';
 
-const useFetchRoutine = (id, token) => {
+const useFetchRoutine = (
+  id: string,
+  token: string
+): useFetchResponse<FindRoutineByIDResponse> => {
   const fetcher = async (query) => await graphQLClient(token).request(query);
   const { data, error, mutate } = useSWR(
     gql`

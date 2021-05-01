@@ -1,3 +1,5 @@
+import { Task } from './Task';
+
 export interface RoutineListObject {
   _id: string;
   title: string;
@@ -9,3 +11,10 @@ export interface RoutineResponse {
   };
 }
 
+export interface FindRoutineByIDResponse {
+  findRoutineByID:
+    | ({
+        tasks: Array<Task>;
+      } & RoutineListObject)
+    | null;
+}

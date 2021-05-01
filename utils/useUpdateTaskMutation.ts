@@ -1,8 +1,9 @@
 import { gql } from 'graphql-request';
 import { graphQLClient } from './graphql-client';
 import { TASK_INFO_FRAGMENT } from '../graphql/queries';
+import { useMutationFunction } from '../types/useMutation';
 
-const useUpdateTaskMutation = (token) => {
+const useUpdateTaskMutation = (token: string): useMutationFunction => {
   const mutation = gql`
     mutation UpdateTask(
       $id: ID!

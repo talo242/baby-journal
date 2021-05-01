@@ -10,6 +10,11 @@ const RoutinePage = (props) => {
   const { token } = props;
   const router = useRouter();
   const { rid } = router.query;
+
+  if (Array.isArray(rid)) {
+    return <p>Invalid link</p>;
+  }
+
   const { data, error } = useFetchRoutine(rid, token);
 
   return (
