@@ -1,22 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import { SquareButton } from './Button';
 
 interface OptionsButton {
   onClick: () => void;
 }
 
-const StyledButton = styled.button`
-  border: none;
-  background-color: transparent;
-  width: 24px;
-  height: 24px;
-`;
-
 const OptionsButton = (props: OptionsButton) => {
   const { onClick } = props;
   return (
-    <SquareButton onClick={onClick}>
+    <SquareButton aria-label="toggle dropdown" onClick={onClick}>
       <svg
         width="16"
         height="4"

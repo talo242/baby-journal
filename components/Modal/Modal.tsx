@@ -41,7 +41,7 @@ const CloseButton = styled.button`
   border: none;
   margin-left: auto;
   padding: 4px 10px;
-`
+`;
 
 export const ModalFormFooter = styled.div`
   display: flex;
@@ -53,20 +53,19 @@ export const ModalFormFooter = styled.div`
   }
 `;
 
-
 const Modal = (props: ModalProps) => {
   const { children, onClose, title } = props;
 
   const handleDialogClick = (e) => {
-    e.stopPropagation()
-  }
+    e.stopPropagation();
+  };
 
   return (
-    <ModalOverlay onClick={onClose}>
+    <ModalOverlay data-testid="modal-overlay" onClick={onClose}>
       <ModalDialog onClick={handleDialogClick}>
         <ModalHeader>
           {title && <H1>{title}</H1>}
-          <CloseButton onClick={onClose}>
+          <CloseButton aria-label="close modal" onClick={onClose}>
             <CloseIcon />
           </CloseButton>
         </ModalHeader>

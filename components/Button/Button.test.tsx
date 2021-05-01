@@ -2,16 +2,19 @@ import React from 'react';
 import Button from './Button';
 import { fireEvent, render } from '@testing-library/react';
 
-describe('The Button component', () => {
+describe('Button component', () => {
   it('should correctly render children elements', () => {
     const { getByText } = render(<Button>Hello world</Button>);
     getByText('Hello world');
   });
 
   it('should render a loader when loading prop is true', () => {
-    const { getByTestId, getByText } = render(<Button loading>Submit</Button>);
+    const { getByTestId, queryByText, getByText } = render(
+      <Button loading>Submit</Button>
+    );
     getByTestId('spinner');
     getByText('Loading');
+    expect(queryByText('Submit')).toBeFalsy();
   });
 
   it('calls a function on click', () => {
@@ -21,7 +24,7 @@ describe('The Button component', () => {
     expect(onClick).toHaveBeenCalled();
   });
 
-  it('should not call a function when disable', () => {
+  it('should not call a function when disabled', () => {
     const onClick = jest.fn();
     const { getByText } = render(
       <Button disabled onClick={onClick}>

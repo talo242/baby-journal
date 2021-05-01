@@ -100,7 +100,7 @@ const OptionsDropdown = (props: OptionsDropdownProps) => {
     >
       <OptionsButton onClick={toggleActiveDropdown} />
       {active && (
-        <Dropdown>
+        <Dropdown data-testid="dropdown">
           <DropdownButton onClick={handleElementClick(onEdit)}>
             <PencilIcon /> Edit
           </DropdownButton>
